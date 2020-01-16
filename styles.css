@@ -1,1 +1,79 @@
-/* https://youtu.be/R-7eQIHRszQ?t=212 */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: rgb(56, 55, 55);
+}
+
+body, .user-input {
+font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.container {
+    background-color: gold;
+    padding: 1rem;
+    border-radius: .5rem;
+    width: 700px;
+    max-width: 90%;
+}
+
+.top-5-container {
+    width: 700px;
+    max-width: 90%;
+position: absolute;
+bottom: 2rem;
+background-color: gray;
+border-radius: .5rem;
+}
+
+.timer, .page-title {
+    position: absolute;
+    font-size: 3rem;
+    font-weight: bold;
+    color: gold;
+}
+
+.timer {
+    top: 7rem;
+}
+
+.page-title {
+    top: 2rem;
+}
+
+.quote-display {
+    margin-bottom: 1rem;
+    margin-left: calc(1rem + 2px);
+    margin-right: calc(1rem + 2px);
+}
+
+.writing-pad {
+    background-color: transparent;
+    border: 5px double goldenrod;
+    outline: none;
+    width: 100%;
+    height: 8rem;
+    margin: auto;
+    border-radius: .5rem;
+    resize: none;
+    padding: .5rem 1rem;
+}
+
+.writing-pad:focus {
+    border-color: darkgreen;
+}
+
+.top-5-list {
+    padding: .5rem 1rem;
+    
+}
+
+.correct {
+    color: green;
+}

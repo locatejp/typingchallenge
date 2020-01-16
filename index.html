@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,11 +9,24 @@
     <script src="logic.js" defer></script>
     <title>Typing Challenge</title>
 </head>
+
 <body>
+    <div class="page-title">Are You Up To The Challenge?</div>
     <div class="timer" id="timer">0</div>
     <div class="container">
-        <div class="writing-pad" id="writing-pad">Quote</div>
-        <textarea class="user-input" id="user-input" autofocus>User Input</textarea>
+        <div class="quote-display" id="quote-display">...</div>
+        <textarea class="writing-pad" id="writing-pad" autofocus></textarea>
+    </div>
+    <div class="top-5-container">
+        <div class="top-5-list">Top 5</div>
+        <ol>
+            <li>Name - 20 seconds</li>
+            <li>Name - 25 seconds</li>
+            <li>Name - 30 seconds</li>
+            <li>Name - 35 seconds</li>
+            <li>Name - 40 seconds</li>
+        </ol>
     </div>
 </body>
+
 </html>
