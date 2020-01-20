@@ -43,6 +43,11 @@ border-radius: .5rem;
     top: 7rem;
 }
 
+.banner {
+    color: red;
+    display: none;
+}
+
 .page-title {
     top: 2rem;
 }
@@ -75,6 +80,7 @@ border-radius: .5rem;
     background-color: goldenrod;
     font-size: 1rem;
     outline: none;
+    margin-left: 50%;
     }
 
 

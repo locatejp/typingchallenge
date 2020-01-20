@@ -2,6 +2,8 @@ const RANDOM_QUOTE_API_URL = 'https://api.quotable.io/random';
 const quoteDisplayElement = document.getElementById('quote-display');
 const writingPad = document.getElementById('writing-pad');
 const startBtn = document.getElementById('startBtn');
+const timerElem = document.getElementById('timer');
+const bannerElem = document.getElementById('banner');
 
 writingPad.addEventListener('input', () => {
     const writingPadArray = writingPad.value.split('')
@@ -21,13 +23,53 @@ writingPad.addEventListener('input', () => {
             correct = false
         }
     })
-    if (correct) console.log(renderNewQuote())
+    if (correct) {
+        writingPad.disabled = true
+        startBtn.disabled = false
+        const elapsedSecs = (new Date().getTime() - startTime)/1000
+        console.log(elapsedSecs + " total seconds elapsed")
+        clearInterval(timerID)
+        bannerElem.innerText = `Great job David. You did that in ${elapsedSecs} seconds.` +
+        ` I'd like to use this as a base for the next mini project we do and record` +
+        ` a top 5 using db connection.  Let me know what you think. -JP`
+        bannerElem.style.display = "block"
+    }
 })
 
 startBtn.addEventListener('click', () => {
     console.log('click')
-    startBtn.disabled = true;
+    startBtn.disabled = true
+    writingPad.value = null
+    writingPad.disabled = false
+    bannerElem.style.display = "none"
+    startCountdown().then(() => {
+        console.log("finished countdown")
+        console.log(timerID);
+        renderNewQuote()
+        writingPad.focus()
+        startTimer()
+        //startBtn.disabled = false;
+    });
+
 })
+
+const startCountdown = () => {
+    return new Promise((resolve, reject) => {
+        timerElem.innerText = "-";
+        quoteDisplayElement.innerText = "3"
+        console.log("3")
+        let i = 2
+        let countdown = setInterval(() => {
+            quoteDisplayElement.innerText = i
+            console.log(i)
+            i--
+            if (i === -1) {
+                clearInterval(countdown)
+                resolve(countdown)
+            }
+        }, 1 * 1000)
+    })
+}
 
 function getRandomQuote() {
     return fetch(RANDOM_QUOTE_API_URL)
@@ -47,5 +89,13 @@ async function renderNewQuote() {
     writingPad.value = null;
 }
 
-renderNewQuote();
+let startTime, timerID
+function startTimer() {
+    startTime = new Date().getTime();
+    timerElem.innerText = 0;
+    timerID = setInterval(() => {
+        const currentSecond = Math.floor((new Date().getTime() - startTime) / 1000)
+        timerElem.innerText = currentSecond
+    }, 1000);
+}
 
