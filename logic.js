@@ -4,6 +4,23 @@ const writingPad = document.getElementById('writing-pad');
 const startBtn = document.getElementById('startBtn');
 const timerElem = document.getElementById('timer');
 const bannerElem = document.getElementById('banner');
+const top5ListItems = document.getElementById('top-5-list-items');
+
+async function getTop5() {
+    try { 
+    resp = await fetch("/top5")
+} catch (err) {
+    console.log("Top 5 fetching error")
+    console.log(err)
+}
+// console.log(`top 5 found ${resp.json()}`)
+var respJSON = await resp.json();
+console.log(`top 5 found ${JSON.stringify(respJSON)}`)
+let currentTop5 = ''
+respJSON.forEach((item) => currentTop5 += `<li>${item.name}- ${item.time}</li>`)
+top5ListItems.innerHTML = currentTop5;
+}
+getTop5();
 
 writingPad.addEventListener('input', () => {
     const writingPadArray = writingPad.value.split('')
