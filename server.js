@@ -27,7 +27,7 @@ app.get('/top5', async (req, res, next) => {
     console.log('Getting the top 5...')
     let top5
     try{
-    top5 = await db.Gamer.find().sort({'time': 1}).limit(5)
+    top5 = await db.Gamer.find().sort({'time': -1}).limit(5)
     } catch (e) {
         console.log('error in retrieving top 5')
         console.log(e)
