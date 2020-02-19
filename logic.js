@@ -1,11 +1,16 @@
 const RANDOM_QUOTE_API_URL = 'https://api.quotable.io/random';
 const quoteDisplayElement = document.getElementById('quote-display');
+const writingPadContainer = document.getElementById('writing-pad-container')
+const top5inputContainer = document.getElementById('top5-input-container')
+const top5banner = document.getElementById('top5banner')
+const top5SubmitField = document.getElementById('top5name')
 const writingPad = document.getElementById('writing-pad');
 const startBtn = document.getElementById('startBtn');
 const timerElem = document.getElementById('timer');
 const bannerElem = document.getElementById('banner');
 const top5ListItems = document.getElementById('top-5-list-items');
 let lowTop5Time
+let WPM
 
 
 async function getTop5() {
@@ -22,16 +27,28 @@ async function getTop5() {
     respJSON.forEach((item) => currentTop5 += `<li>${item.name}- ${item.time}</li>`)
     top5ListItems.innerHTML = currentTop5;
     lowTop5Time = respJSON[4].time
-    localStorage.setItem('topWPM', JSON.stringify(lowTop5Time))
+    //localStorage.setItem('topWPM', JSON.stringify(lowTop5Time))
 }
 getTop5();
+
+// function resetPad() {
+//     timer.innerHTML= "-"
+// quoteDisplayElement.innerHTML= "--Click Start To Begin--"
+// writingPad.innerHTML= ""
+// writingPawritingPad.disabled = true
+// bannerElem.innerHTML= ""
+// startBtn.disabled = false
+//     writingPad.value = null
+//     bannerElem.style.display = "none"
+
+// }
 
 writingPad.addEventListener('input', () => {
     const writingPadArray = writingPad.value.split('')
     const arrayQuote = quoteDisplayElement.querySelectorAll('span')
     let correct = true
     arrayQuote.forEach((spanLetter, index) => {
- if (writingPadArray[index] === undefined) {
+        if (writingPadArray[index] === undefined) {
             arrayQuote[index].classList.remove('correct')
             arrayQuote[index].classList.remove('incorrect')
             correct = false
@@ -47,26 +64,60 @@ writingPad.addEventListener('input', () => {
     if (correct) {
         writingPad.disabled = true
         startBtn.disabled = false
-        const elapsedSecs = (new Date().getTime() - startTime)/1000
-        const elapsedMins = elapsedSecs/60
+        const elapsedSecs = (new Date().getTime() - startTime) / 1000
+        const displaySecs = Math.floor(elapsedSecs)
+        const elapsedMins = elapsedSecs / 60
         const typedWords = currentQuote.split(' ').length
-        const WPM = typedWords / elapsedMins
+        WPM = typedWords / elapsedMins
         const WPMRounded = Math.floor(WPM)
         console.log(elapsedSecs + " total seconds elapsed")
         console.log(`${elapsedMins} total mins elapsed`)
         console.log(typedWords + " total words typed")
-        console.log(`${typedWords/elapsedMins} WPM`)
+        console.log(`${typedWords / elapsedMins} WPM`)
         clearInterval(timerID)
-        if (WPM > lowTop5Time){
-            bannerElem.innerText = `Congrats! You got a top score.  \
-            You did that in ${elapsedSecs} seconds \
+        if (WPM > lowTop5Time) {
+            writingPadContainer.style.display = "none"
+            top5inputContainer.style.display = "block"
+            top5banner.innerText = `Congrats! You got a top score.  \
+            You did that in ${displaySecs} seconds \
             giving you a typing speed of ${WPMRounded} WPM.`
         } else {
-        bannerElem.innerText = `Great job. You did that in ${elapsedSecs} \
+            bannerElem.innerText = `Great job. You did that in ${elapsedSecs} \
         seconds giving you a typing speed of ${WPMRounded} WPM.`
         }
         bannerElem.style.display = "block"
     }
+})
+
+top5nameSubmitBtn.addEventListener('click', async () => {
+    console.log('top5 submit button clicked')
+    top5nameSubmitBtn.disabled = true
+    const top5submitName = top5SubmitField.value
+    console.log(`top5 submit name value: ${top5submitName}`)
+    let resp, respJSON;
+    try {
+        resp = await fetch('/top5', {
+            method: 'POST',
+            body: JSON.stringify({
+                name: top5submitName,
+                wpm: WPM
+            }),
+            headers: { "Content-Type": "application/json" }
+        })
+        respJSON = await resp.json();
+        console.log(`response from adding top 5 name: ${respJSON}`)
+    } catch (e) {
+        console.log(`ERROR in posting top 5 name: ${e}`)
+    }
+
+    if (resp.status === 201) {
+        getTop5()
+        top5SubmitField.value = ""
+        writingPadContainer.style.display = "block"
+        top5inputContainer.style.display = "none"
+
+    }
+
 })
 
 startBtn.addEventListener('click', () => {

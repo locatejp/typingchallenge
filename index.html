@@ -14,11 +14,18 @@
     <div class="page-title">Typing King</div>
     <div class="timer" id="timer">-</div>
     
-    <div class="container">
+    <div class="container" id="writing-pad-container">
         <div class="quote-display" id="quote-display">--Click Start To Begin--</div>
         <textarea class="writing-pad" id="writing-pad" disabled="true" onpaste="return false" autofocus></textarea>
         <button type= "button" id="startBtn" class="start-button">Start</button>
         <div class="banner" id="banner">Hi David</div>
+    </div>
+    <div class="container" id="top5-input-container" style="display: none;">
+        <div class="top5inputborder">
+            <div class="top5banner" id="top5banner"></div>
+        <input type="text" id="top5name">
+        <button id="top5nameSubmitBtn">Submit</button>
+        </div>
     </div>
     <div class="top-5-container">
         <div class="top-5-list" id="top-5-list">Top 5</div>
