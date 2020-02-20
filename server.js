@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const path = require('path')
 const db = require('./models')
-let PORT = 3000
+let PORT = process.env.PORT || 3000
 
 
 //==========
