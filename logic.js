@@ -31,18 +31,6 @@ async function getTop5() {
 }
 getTop5();
 
-// function resetPad() {
-//     timer.innerHTML= "-"
-// quoteDisplayElement.innerHTML= "--Click Start To Begin--"
-// writingPad.innerHTML= ""
-// writingPawritingPad.disabled = true
-// bannerElem.innerHTML= ""
-// startBtn.disabled = false
-//     writingPad.value = null
-//     bannerElem.style.display = "none"
-
-// }
-
 writingPad.addEventListener('input', () => {
     const writingPadArray = writingPad.value.split('')
     const arrayQuote = quoteDisplayElement.querySelectorAll('span')
@@ -86,7 +74,23 @@ writingPad.addEventListener('input', () => {
         seconds giving you a typing speed of ${WPMRounded} WPM.`
         }
         bannerElem.style.display = "block"
+        startBtn.style.display = "none"
+        resetBtn.disabled = false
+        resetBtn.style.display = "block"
     }
+})
+
+resetBtn.addEventListener('click', () => {
+    resetBtn.disabled = true
+    timer.innerHTML = "-"
+    quoteDisplayElement.innerHTML = "--Click Start To Begin--"
+    writingPad.value = null
+    writingPad.disabled = true
+    bannerElem.innerHTML = ""
+    bannerElem.style.display = "none"
+    resetBtn.style.display = "none"
+    startBtn.disabled = false
+    startBtn.style.display = "block"
 })
 
 top5nameSubmitBtn.addEventListener('click', async () => {
