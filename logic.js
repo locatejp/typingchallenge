@@ -9,7 +9,7 @@ const startBtn = document.getElementById('startBtn');
 const timerElem = document.getElementById('timer');
 const bannerElem = document.getElementById('banner');
 const top5ListItems = document.getElementById('top-5-list-items');
-let lowTop5Time
+let lowTop5Time = 0
 let WPM
 
 
@@ -24,9 +24,9 @@ async function getTop5() {
     var respJSON = await resp.json();
     console.log(`top 5 found ${JSON.stringify(respJSON)}`)
     let currentTop5 = ''
-    respJSON.forEach((item) => currentTop5 += `<li>${item.name}- ${item.time}.toFixed(2)</li>`)
+    respJSON.forEach((item) => currentTop5 += `<li>${item.name}- ${item.time.toFixed(2)}</li>`)
     top5ListItems.innerHTML = currentTop5;
-    lowTop5Time = respJSON[4].time
+    if (respJSON.length > 4) { lowTop5Time = respJSON[4].time }
     //localStorage.setItem('topWPM', JSON.stringify(lowTop5Time))
 }
 getTop5();
