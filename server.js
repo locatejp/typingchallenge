@@ -25,7 +25,6 @@ app.get('/', (req, res, next) => {
 })
 
 app.post('/top5', async (req, res, next) => {
-    console.log
     const {name, wpm} = req.body
     if (name && wpm) {
         const winner = new db.Gamer({name, time: wpm})
